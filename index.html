@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patient Timeline</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f2f4f7;
+      color: #1a1a2e;
+      min-height: 100vh;
+    }
+
+    /* App shell */
+    .app {
+      max-width: 390px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: #f2f4f7;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    header {
+      background: #ffffff;
+      padding: 20px 20px 0;
+      border-bottom: 1px solid #e8eaed;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #dce8ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .patient-info h1 {
+      font-size: 17px;
+      font-weight: 600;
+    }
+
+    .patient-info p {
+      font-size: 13px;
+      color: #6b7280;
+      margin-top: 2px;
+    }
+
+    .badge {
+      margin-left: auto;
+      background: #eef2ff;
+      color: #4361ee;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    /* Filter tabs */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      padding-bottom: 0;
+    }
+
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 10px 0;
+      font-size: 14px;
+      font-weight: 500;
+      color: #6b7280;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+    }
+
+    .tab.active {
+      color: #4361ee;
+      border-bottom-color: #4361ee;
+    }
+
+    /* Date strip */
+    .date-strip {
+      padding: 14px 20px 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Timeline */
+    .timeline {
+      flex: 1;
+      padding: 0 20px 32px;
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 4px;
+    }
+
+    /* Time column */
+    .time-col {
+      width: 48px;
+      flex-shrink: 0;
+      text-align: right;
+      padding-top: 16px;
+    }
+
+    .time-label {
+      font-size: 12px;
+      color: #9ca3af;
+      font-weight: 500;
+    }
+
+    /* Spine */
+    .spine-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+      width: 20px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-top: 20px;
+      flex-shrink: 0;
+      border: 2px solid #ffffff;
+    }
+
+    .dot.done      { background: #10b981; }
+    .dot.upcoming  { background: #4361ee; }
+    .dot.overdue   { background: #f59e0b; }
+
+    .line {
+      width: 2px;
+      flex: 1;
+      background: #e5e7eb;
+      min-height: 8px;
+    }
+
+    /* Card */
+    .card {
+      flex: 1;
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin: 8px 0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      transition: opacity 0.2s;
+    }
+
+    .card.done {
+      opacity: 0.6;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .card-icon {
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    .card h3 {
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    .card p {
+      font-size: 13px;
+      color: #6b7280;
+      margin-top: 3px;
+      line-height: 1.4;
+    }
+
+    .status-pill {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .status-pill.done     { background: #d1fae5; color: #065f46; }
+    .status-pill.upcoming { background: #e0e7ff; color: #3730a3; }
+    .status-pill.overdue  { background: #fef3c7; color: #92400e; }
+
+    /* Empty state */
+    .empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: #9ca3af;
+    }
+
+    .empty .empty-icon { font-size: 40px; margin-bottom: 12px; }
+    .empty h3 { font-size: 16px; font-weight: 600; color: #6b7280; }
+    .empty p  { font-size: 14px; margin-top: 6px; }
+
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <header>
+    <div class="header-top">
+      <div class="avatar">🏥</div>
+      <div class="patient-info">
+        <h1>Sarah Mitchell</h1>
+        <p>Ward 4B · Admitted 14 Apr</p>
+      </div>
+      <span class="badge">Day 3</span>
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="setFilter('today')">Today</button>
+      <button class="tab" onclick="setFilter('incomplete')">Incomplete</button>
+    </div>
+  </header>
+
+  <div class="date-strip" id="date-strip">Wednesday, 16 April</div>
+
+  <div class="timeline" id="timeline"></div>
+
+</div>
+
+<script>
+  const tasks = [
+    {
+      id: 1,
+      time: '7:00 AM',
+      sortTime: 700,
+      icon: '💊',
+      title: 'Morning Medications',
+      detail: 'Metformin 500mg · Lisinopril 10mg',
+      status: 'done',
+      today: true
+    },
+    {
+      id: 2,
+      time: '8:30 AM',
+      sortTime: 830,
+      icon: '🩸',
+      title: 'Blood Draw',
+      detail: 'Fasting glucose & full blood count',
+      status: 'done',
+      today: true
+    },
+    {
+      id: 3,
+      time: '10:00 AM',
+      sortTime: 1000,
+      icon: '🩺',
+      title: "Doctor's Round",
+      detail: 'Dr. Patel — ward review',
+      status: 'done',
+      today: true
+    },
+    {
+      id: 4,
+      time: '12:00 PM',
+      sortTime: 1200,
+      icon: '🥗',
+      title: 'Lunch',
+      detail: 'Diabetic meal plan delivered to room',
+      status: 'done',
+      today: true
+    },
+    {
+      id: 5,
+      time: '2:00 PM',
+      sortTime: 1400,
+      icon: '🦽',
+      title: 'Physiotherapy',
+      detail: 'Exercise assessment — Level 2 gym',
+      status: 'overdue',
+      today: true
+    },
+    {
+      id: 6,
+      time: '4:00 PM',
+      sortTime: 1600,
+      icon: '💊',
+      title: 'Afternoon Medications',
+      detail: 'Paracetamol 500mg',
+      status: 'upcoming',
+      today: true
+    },
+    {
+      id: 7,
+      time: '5:30 PM',
+      sortTime: 1730,
+      icon: '🫀',
+      title: 'Obs Check',
+      detail: 'Blood pressure & oxygen saturation',
+      status: 'upcoming',
+      today: true
+    },
+    {
+      id: 8,
+      time: '8:00 PM',
+      sortTime: 2000,
+      icon: '💊',
+      title: 'Evening Medications',
+      detail: 'Metformin 500mg',
+      status: 'upcoming',
+      today: true
+    },
+    {
+      id: 9,
+      time: 'Yesterday',
+      sortTime: -1,
+      icon: '📋',
+      title: 'Consent Form',
+      detail: 'Procedure consent not yet signed',
+      status: 'overdue',
+      today: false
+    },
+    {
+      id: 10,
+      time: 'Yesterday',
+      sortTime: -2,
+      icon: '🥤',
+      title: 'Fluid Intake Log',
+      detail: 'Complete 24-hour fluid diary',
+      status: 'overdue',
+      today: false
+    }
+  ];
+
+  let currentFilter = 'today';
+
+  function setFilter(filter) {
+    currentFilter = filter;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+
+    const strip = document.getElementById('date-strip');
+    strip.textContent = filter === 'today'
+      ? 'Wednesday, 16 April'
+      : 'All Incomplete Tasks';
+
+    render();
+  }
+
+  function render() {
+    const container = document.getElementById('timeline');
+
+    let filtered = currentFilter === 'today'
+      ? tasks.filter(t => t.today)
+      : tasks.filter(t => t.status !== 'done');
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div class="empty">
+          <div class="empty-icon">✅</div>
+          <h3>All done!</h3>
+          <p>No incomplete tasks right now.</p>
+        </div>`;
+      return;
+    }
+
+    container.innerHTML = filtered.map((task, i) => {
+      const isLast = i === filtered.length - 1;
+      return `
+        <div class="timeline-item">
+          <div class="time-col">
+            <span class="time-label">${task.time}</span>
+          </div>
+          <div class="spine-col">
+            <div class="dot ${task.status}"></div>
+            ${!isLast ? '<div class="line"></div>' : ''}
+          </div>
+          <div class="card ${task.status}">
+            <div class="card-top">
+              <div>
+                <div class="card-icon">${task.icon}</div>
+                <h3>${task.title}</h3>
+                <p>${task.detail}</p>
+              </div>
+              <span class="status-pill ${task.status}">
+                ${task.status === 'done' ? 'Done' : task.status === 'overdue' ? 'Overdue' : 'Upcoming'}
+              </span>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  render();
+</script>
+</body>
+</html>
