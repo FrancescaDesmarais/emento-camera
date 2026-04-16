@@ -29,4 +29,12 @@ This is the project architecture for Claude to follow for the Emento-Camera proj
 **Key Action:**
 - Take a photo using the native camera app
 	  
-	  
+
+## Analyse Image
+- The app needs to analyse the photo and determine if:  
+	A) The image is a note from the nurse with appointment information  
+	B) The image is a pain medication schedule for the patient
+- Analyse the photo and then provide a summary screen that says if the image is option A or B and make a summary of the information on the note in text format
+
+**Key Action:**
+- There should be a ‘back button’ in the upper left-hand corner so the tester can go back to the “Start Screen”**   
