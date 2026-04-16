@@ -26,8 +26,13 @@
       position: relative;
     }
 
-    .screen.active {
-      display: flex;
+    .screen.active { display: flex; }
+
+    .screen.top {
+      justify-content: flex-start;
+      align-items: stretch;
+      padding: 0;
+      overflow-y: auto;
     }
 
     /* ── Screen 1: Start ── */
@@ -35,8 +40,7 @@
     .app-name {
       position: absolute;
       top: 48px;
-      left: 0;
-      right: 0;
+      left: 0; right: 0;
       text-align: center;
       font-size: 13px;
       font-weight: 600;
@@ -59,15 +63,8 @@
       transition: background 0.15s, transform 0.1s;
     }
 
-    .camera-btn:active {
-      background: #1a6e1a;
-      transform: scale(0.97);
-    }
-
-    .camera-btn svg {
-      width: 56px;
-      height: 56px;
-    }
+    .camera-btn:active { background: #1a6e1a; transform: scale(0.97); }
+    .camera-btn svg { width: 56px; height: 56px; }
 
     .start-label {
       font-size: 17px;
@@ -78,9 +75,7 @@
       max-width: 220px;
     }
 
-    #camera-input {
-      display: none;
-    }
+    #camera-input { display: none; }
 
     /* ── Screen 2: Processing ── */
 
@@ -94,14 +89,11 @@
       margin-bottom: 32px;
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     .processing-title {
       font-size: 20px;
       font-weight: 600;
-      color: #111111;
       margin-bottom: 10px;
       text-align: center;
     }
@@ -113,12 +105,9 @@
       line-height: 1.5;
     }
 
-    /* ── Screen 3: Result ── */
+    /* ── Shared: Back button ── */
 
     .back-btn {
-      position: absolute;
-      top: 48px;
-      left: 24px;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -127,13 +116,18 @@
       cursor: pointer;
       font-size: 15px;
       font-weight: 500;
-      color: #228B22;
       padding: 4px 0;
     }
 
-    .back-btn svg {
-      width: 18px;
-      height: 18px;
+    .back-btn svg { width: 18px; height: 18px; }
+
+    /* ── Screen 3: Result ── */
+
+    #screen-result .back-btn {
+      position: absolute;
+      top: 48px;
+      left: 24px;
+      color: #228B22;
     }
 
     .result-content {
@@ -189,7 +183,7 @@
     }
 
     .result-note {
-      margin-top: 32px;
+      margin-top: 8px;
       background: #f5f5f5;
       border-left: 3px solid #228B22;
       border-radius: 4px;
@@ -198,11 +192,204 @@
       color: #555555;
       line-height: 1.5;
     }
+
+    .add-btn {
+      width: 100%;
+      margin-top: 28px;
+      padding: 16px;
+      background: #228B22;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    .add-btn:active { background: #1a6e1a; transform: scale(0.98); }
+
+    /* ── Screen 4A: Appointment ── */
+
+    .appt-nav {
+      display: flex;
+      align-items: center;
+      padding: 52px 24px 20px;
+      gap: 12px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .appt-nav .back-btn { color: #228B22; }
+
+    .appt-nav-title {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #888888;
+    }
+
+    .appt-body { padding: 24px 24px 48px; }
+
+    .appt-title {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 28px;
+    }
+
+    .appt-section { margin-bottom: 24px; }
+
+    .appt-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #888888;
+      margin-bottom: 6px;
+    }
+
+    .appt-value {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.4;
+      color: #111111;
+    }
+
+    .appt-instructions {
+      margin-top: 8px;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .appt-instruction-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      font-size: 15px;
+      font-weight: 500;
+      color: #111111;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .appt-instruction-row:last-child { border-bottom: none; }
+
+    .instr-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    /* ── Screen 4B: Timeline ── */
+
+    .timeline-header {
+      background: #228B22;
+      padding: 52px 24px 0;
+      flex-shrink: 0;
+    }
+
+    .timeline-header .back-btn { color: #ffffff; margin-bottom: 12px; }
+
+    .timeline-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 20px;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .filter-tab {
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      background: rgba(255,255,255,0.2);
+      color: #ffffff;
+    }
+
+    .filter-tab.active {
+      background: #ffffff;
+      color: #228B22;
+    }
+
+    .task-list { padding: 16px 24px 48px; }
+
+    .task-date-group {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #888888;
+      margin: 20px 0 8px;
+    }
+
+    .task-date-group:first-child { margin-top: 0; }
+
+    .task-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 8px;
+      font-size: 15px;
+      font-weight: 500;
+      color: #111111;
+      line-height: 1.3;
+    }
+
+    .task-check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid #cccccc;
+      flex-shrink: 0;
+    }
+
+    .task-sub {
+      font-size: 12px;
+      color: #888888;
+      margin-top: 2px;
+      font-weight: 400;
+    }
+
+    /* ── Highlight fade animation ── */
+
+    @keyframes highlight-fade {
+      0%   { background-color: #86efac; border-color: #4ade80; }
+      50%  { background-color: #86efac; border-color: #4ade80; }
+      100% { background-color: #ffffff; border-color: #e0e0e0; }
+    }
+
+    .new-item {
+      animation: highlight-fade 3s ease-out forwards;
+    }
+
+    @keyframes highlight-fade-row {
+      0%   { background-color: #dcfce7; }
+      50%  { background-color: #dcfce7; }
+      100% { background-color: transparent; }
+    }
+
+    .new-row {
+      border-radius: 8px;
+      animation: highlight-fade-row 3s ease-out forwards;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Screen 1: Start -->
+  <!-- ── Screen 1: Start ── -->
   <div class="screen active" id="screen-start">
     <span class="app-name">Emento</span>
 
@@ -218,68 +405,204 @@
     </button>
 
     <p class="start-label">Add Information To Your Digital Care Guide</p>
-
     <input type="file" accept="image/*" capture="environment" id="camera-input" />
   </div>
 
-  <!-- Screen 2: Processing -->
+  <!-- ── Screen 2: Processing ── -->
   <div class="screen" id="screen-processing">
     <div class="processing-icon"></div>
     <p class="processing-title">Analysing your note…</p>
     <p class="processing-sub">Reading the information and adding it to your care guide.</p>
   </div>
 
-  <!-- Screen 3: Result -->
+  <!-- ── Screen 3: Result ── -->
   <div class="screen" id="screen-result">
-    <button class="back-btn" id="back-btn">
-      <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M11 4L6 9l5 5" stroke="#228B22" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+    <button class="back-btn" id="result-back">
+      <svg viewBox="0 0 18 18" fill="none"><path d="M11 4L6 9l5 5" stroke="#228B22" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Back
     </button>
-
     <div class="result-content" id="result-content"></div>
   </div>
 
+  <!-- ── Screen 4A: Appointment ── -->
+  <div class="screen top" id="screen-appointment">
+    <div class="appt-nav">
+      <button class="back-btn" id="appt-back">
+        <svg viewBox="0 0 18 18" fill="none"><path d="M11 4L6 9l5 5" stroke="#228B22" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Back
+      </button>
+      <span class="appt-nav-title">Appointments</span>
+    </div>
+
+    <div class="appt-body">
+      <h1 class="appt-title">Operationsdag:<br>Operation i knæ</h1>
+      <div class="divider"></div>
+
+      <div class="appt-section new-row" id="appt-datetime">
+        <p class="appt-label">Date &amp; Time</p>
+        <p class="appt-value">Tuesday 23. December<br>Arrival: 07:30</p>
+      </div>
+
+      <div class="appt-section new-row" id="appt-location">
+        <p class="appt-label">Location</p>
+        <p class="appt-value">Nordsjællands Hospital<br>Afdeling 0661</p>
+      </div>
+
+      <div class="divider"></div>
+
+      <p class="appt-label" style="margin-bottom: 10px;">Before Your Appointment</p>
+      <div class="appt-instructions">
+        <div class="appt-instruction-row new-item" id="appt-fast">
+          <span class="instr-icon">🍽</span>
+          <span>Fast 6 hours before arrival</span>
+        </div>
+        <div class="appt-instruction-row new-item" id="appt-fluids">
+          <span class="instr-icon">💧</span>
+          <span>No fluids 2 hours before arrival</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Screen 4B: Timeline ── -->
+  <div class="screen top" id="screen-timeline">
+    <div class="timeline-header">
+      <button class="back-btn" id="timeline-back">
+        <svg viewBox="0 0 18 18" fill="none"><path d="M11 4L6 9l5 5" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Back
+      </button>
+      <h1 class="timeline-title">Knæoperation — menisk</h1>
+      <div class="filter-tabs">
+        <button class="filter-tab active">All</button>
+        <button class="filter-tab">Today</button>
+        <button class="filter-tab">Overdue</button>
+      </div>
+    </div>
+
+    <div class="task-list">
+
+      <div class="task-item">
+        <div class="task-check"></div>
+        <div>Stop med at drikke væsker fra kl 06</div>
+      </div>
+      <div class="task-item">
+        <div class="task-check"></div>
+        <div>Kom igang efter operationen</div>
+      </div>
+      <div class="task-item">
+        <div class="task-check"></div>
+        <div>Sådan håndterer du smerterne</div>
+      </div>
+
+      <p class="task-date-group">Wed 24. Dec 2025</p>
+      <div class="task-item">
+        <div class="task-check"></div>
+        <div>Skift af plaster når du kommer hjem</div>
+      </div>
+
+      <p class="task-date-group">Thu 25. Dec 2025</p>
+      <div class="task-item">
+        <div class="task-check"></div>
+        <div>Observation af operationssår</div>
+      </div>
+
+      <p class="task-date-group">23. Dec → 27. Dec · Paracetamol</p>
+      <div class="task-item new-item">
+        <div class="task-check"></div>
+        <div>
+          2 x 500mg · Morgen
+          <div class="task-sub">Take with food</div>
+        </div>
+      </div>
+      <div class="task-item new-item">
+        <div class="task-check"></div>
+        <div>
+          2 x 500mg · Middag
+          <div class="task-sub">Take with food</div>
+        </div>
+      </div>
+      <div class="task-item new-item">
+        <div class="task-check"></div>
+        <div>
+          2 x 500mg · Aften
+          <div class="task-sub">Take with food</div>
+        </div>
+      </div>
+      <div class="task-item new-item">
+        <div class="task-check"></div>
+        <div>
+          2 x 500mg · Nat
+          <div class="task-sub">Take with food</div>
+        </div>
+      </div>
+
+      <p class="task-date-group">23. Dec → 25. Dec · Tramadol</p>
+      <div class="task-item new-item">
+        <div class="task-check"></div>
+        <div>
+          1 x 50mg · Efter behov
+          <div class="task-sub">Max 4 times daily</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <script>
-    const trigger          = document.getElementById('camera-trigger');
-    const input            = document.getElementById('camera-input');
-    const screenStart      = document.getElementById('screen-start');
-    const screenProcessing = document.getElementById('screen-processing');
-    const screenResult     = document.getElementById('screen-result');
-    const resultContent    = document.getElementById('result-content');
-    const backBtn          = document.getElementById('back-btn');
+    const trigger             = document.getElementById('camera-trigger');
+    const input               = document.getElementById('camera-input');
+    const screenStart         = document.getElementById('screen-start');
+    const screenProcessing    = document.getElementById('screen-processing');
+    const screenResult        = document.getElementById('screen-result');
+    const screenAppointment   = document.getElementById('screen-appointment');
+    const screenTimeline      = document.getElementById('screen-timeline');
+    const resultContent       = document.getElementById('result-content');
 
     const results = [
       {
         type: 'Appointment Note',
         title: 'Surgery Department Details',
         rows: [
-          { label: 'Department',  value: 'Orthopaedic Day Surgery — Level 3, Block C' },
-          { label: 'Date',        value: 'Thursday 18 April 2026' },
-          { label: 'Arrival Time', value: '7:00 AM' },
-          { label: 'Operation Time', value: '9:30 AM (estimated)' },
-          { label: 'Contact',     value: 'Ward 4B — ext. 3214' },
+          { label: 'Department',    value: 'Afdeling 0661' },
+          { label: 'Date',          value: 'Tuesday 23. December' },
+          { label: 'Arrival Time',  value: '07:30' },
+          { label: 'Before Arrival', value: 'Fast 6 hours · No fluids 2 hours' },
         ],
-        note: 'This information has been added to your care guide under "Your Appointments".'
+        note: 'Information added to your care guide under "Appointments".',
+        journey: screenAppointment
       },
       {
         type: 'Medication Schedule',
         title: 'Post-Surgery Pain Management',
         rows: [
-          { label: 'Medication',  value: 'Paracetamol 1000mg + Ibuprofen 400mg' },
-          { label: 'Morning',     value: '7:00 AM — with food' },
-          { label: 'Midday',      value: '1:00 PM — with food' },
-          { label: 'Evening',     value: '7:00 PM — with food' },
-          { label: 'Note',        value: 'Do not exceed 4 doses in 24 hours' },
+          { label: 'Paracetamol',   value: '2 x 500mg · 23. Dec → 27. Dec' },
+          { label: 'When',          value: 'Morgen · Middag · Aften · Nat' },
+          { label: 'Tramadol',      value: '1 x 50mg · 23. Dec → 25. Dec' },
+          { label: 'When',          value: 'After need · Max 4 times daily' },
         ],
-        note: 'This schedule has been added to your care guide under "Your Medications".'
+        note: 'Medication schedule added to your care guide under "Tasks".',
+        journey: screenTimeline
       }
     ];
 
     let turn = 0;
+    let currentJourney = null;
 
-    function showResult(data) {
+    function showScreen(screen) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      screen.classList.add('active');
+      screen.scrollTop = 0;
+    }
+
+    function restartAnimations(screen) {
+      screen.querySelectorAll('.new-item, .new-row').forEach(el => {
+        el.style.animation = 'none';
+        el.offsetHeight; // reflow
+        el.style.animation = '';
+      });
+    }
+
+    function renderResult(data) {
       resultContent.innerHTML = `
         <p class="result-type">${data.type}</p>
         <h2 class="result-title">${data.title}</h2>
@@ -291,30 +614,36 @@
           </div>
         `).join('')}
         <div class="result-note">${data.note}</div>
+        <button class="add-btn" id="add-journey-btn">Add to Care Journey</button>
       `;
+
+      document.getElementById('add-journey-btn').addEventListener('click', () => {
+        restartAnimations(currentJourney);
+        showScreen(currentJourney);
+      });
     }
 
+    // Camera flow
     trigger.addEventListener('click', () => input.click());
 
     input.addEventListener('change', () => {
       if (!input.files || input.files.length === 0) return;
-
-      screenStart.classList.remove('active');
-      screenProcessing.classList.add('active');
+      showScreen(screenProcessing);
 
       setTimeout(() => {
-        showResult(results[turn % 2]);
+        const data = results[turn % 2];
+        currentJourney = data.journey;
         turn++;
-        screenProcessing.classList.remove('active');
-        screenResult.classList.add('active');
+        renderResult(data);
+        showScreen(screenResult);
         input.value = '';
       }, 2500);
     });
 
-    backBtn.addEventListener('click', () => {
-      screenResult.classList.remove('active');
-      screenStart.classList.add('active');
-    });
+    // Back buttons
+    document.getElementById('result-back').addEventListener('click', () => showScreen(screenStart));
+    document.getElementById('appt-back').addEventListener('click', () => showScreen(screenStart));
+    document.getElementById('timeline-back').addEventListener('click', () => showScreen(screenStart));
   </script>
 
 </body>
